@@ -9,7 +9,7 @@
 void introducir_vertice(grafo *G) {
     tipovertice v1;
     printf("Introduce vertice: ");
-    scanf("%d", &v1);
+    scanf(" %[^\r\n]", v1.nombreCiudad); //declaramos con m ya que nos guarda memoria para un string
     if (existe_vertice(*G, v1))
         printf("Ese vertice ya esta en el grafo\n");
     else
@@ -20,7 +20,7 @@ void introducir_vertice(grafo *G) {
 void eliminar_vertice(grafo *G) {
     tipovertice v1;
     printf("Introduce vertice: ");
-    scanf("%d", &v1);
+    scanf(" %[^\r\n]", v1.nombreCiudad);
     if (existe_vertice(*G, v1))
         borrar_vertice(G, v1);
     else
@@ -31,51 +31,99 @@ void eliminar_vertice(grafo *G) {
 
 void nuevo_arco(grafo *G) {
     tipovertice v1, v2;
+    float valorcarretera,valorautopista;
     //Insertamos una nueva relación pidiendo los datos al usuario controlando que existan los vértices
     printf("Nueva relacion vertice1-->vertice2\n");
     //Vértice origen del arco
     printf("Introduce vertice origen: ");
-    scanf("%d", &v1);
+    scanf(" %[^\r\n]", v1.nombreCiudad);
     if (!existe_vertice(*G, v1)) {
-        printf("El vertice %d no existe en el grafo\n", v1);
+        printf("El vertice %s no existe en el grafo\n", v1.nombreCiudad);
         return;
     }
     //Vértice destino del arco
     printf("Introduce vertice destino: ");
-    scanf("%d", &v2);
+    scanf(" %[^\r\n]", v2.nombreCiudad);
     if (!existe_vertice(*G, v2)) {
-        printf("El vertice %d no existe en el grafo\n", v2);
+        printf("El vertice %s no existe en el grafo\n", v2.nombreCiudad);
         return;
     }
-    //Creación del arco
-    if (!son_adyacentes(*G, posicion(*G, v1), posicion(*G, v2)))
-        crear_arco(G, posicion(*G, v1), posicion(*G, v2));
-}
 
+    //pillamos las distancias
+
+    //carretera
+    printf("Introduce la distancia del trayecto para carretera: ");
+    scanf("%f", &valorcarretera);
+
+    //autopista
+    printf("Introduce la distancia del trayecto para autopista: ");
+    scanf("%f", &valorautopista);
+
+    //Creación del arco
+    //si no existe distancia entre las carreteras creamos nuestro arco
+    if (!distanciaCarreteras(*G, posicion(*G, v1), posicion(*G, v2))) {
+        if(valorcarretera>0) {
+            InsertarArcoCarretera(G, posicion(*G, v1), posicion(*G, v2), valorcarretera);
+        }else printf("VALOR INTRODUCIDO NO VALIDO, NO SE CREO EL ARCO CARRETERA\n");
+    }
+    //si no hay distancia entre carreteras
+    if (!distanciaAutopistas(*G, posicion(*G, v1), posicion(*G, v2))) {
+        if(valorautopista>0) {
+            InsertarArcoAutopista(G, posicion(*G, v1), posicion(*G, v2), valorautopista);
+        } else printf("VALOR INTRODUCIDO NO VALIDO, NO SE CREO EL ARCO AUTOPISTA\n");
+    }
+
+}
 //Opción d del menú, eliminar una relación entre dos vértices
 void eliminar_arco(grafo *G) {
     tipovertice v1, v2;
+    char flag;
     //Eliminamos una relación pidiendo los datos al usuario controlando que existan los vértices
     printf("Eliminar relacion vertice1-->vertice2\n");
     //Vértice origen del arco
     printf("Introduce vertice origen: ");
-    scanf("%d", &v1);
+    scanf(" %[^\r\n]", v1.nombreCiudad);
     if (!existe_vertice(*G, v1)) {
-        printf("El vertice %d no existe en el grafo\n", v1);
+        printf("El vertice %s no existe en el grafo\n", v1.nombreCiudad);
         return;
     }
     //Vértice destino del arco
     printf("Introduce vertice destino: ");
-    scanf("%d", &v2);
+    scanf(" %[^\r\n]", v2.nombreCiudad);
+    fgetc(stdin);
     if (!existe_vertice(*G, v2)) {
-        printf("El vertice %d no existe en el grafo\n", v2);
+        printf("El vertice %s no existe en el grafo\n", v2.nombreCiudad);
         return;
     }
     //Eliminación del arco
-    if (son_adyacentes(*G, posicion(*G, v1), posicion(*G, v2)))
-        borrar_arco(G, posicion(*G, v1), posicion(*G, v2));
-}
+    printf("Que arco desea eliminar: C/A");
+    //fgetc(stdin);
+    scanf(" %c", &flag);
 
+
+
+    switch (flag) {
+
+        case 'C':
+            //ELiminacion del arco carreteras
+            if (distanciaCarreteras(*G, posicion(*G, v1), posicion(*G, v2))) {
+                borrarArcoCarretera(G, posicion(*G, v1), posicion(*G, v2));
+            }
+            break;
+
+        case 'A':
+
+            //Eliminacion del arco autopista
+            if(distanciaAutopistas(*G, posicion(*G, v1), posicion(*G, v2))) {
+                borrarArcoAutopista(G, posicion(*G, v1), posicion(*G, v2));
+            }
+
+            break;
+
+        default:
+            printf("Opcion incorrecta, vuelva a intentar eliminar el arco");
+    }
+}
 //Opción i del menú, imprimir el grafo
 //Función que imprime el grafo utilizando num_vertices para saber cuántos vértices tiene
 //y array_vertices para recuperar el vector de vértices y recorrerlo
@@ -92,11 +140,19 @@ void imprimir_grafo(grafo G) {
     printf("El grafo actual es:\n");
     for (i = 0; i < N; i++) {
         //Imprimo el vértice
-        printf("Vertice(%d): %d\n", i, VECTOR[i]);
+        printf("Vertice(%d): %s\n", i, VECTOR[i].nombreCiudad);
         //Chequeo sus arcos
-        for (j = 0; j < N; j++)
-            if (son_adyacentes(G, i, j))
-                printf("\t%d-->%d\n", VECTOR[i], VECTOR[j]);
+        for (j = 0; j < N; j++) {
+
+            //si son carreteras
+            if (distanciaCarreteras(G, i, j)) {
+                printf("\t-->%s(%.2f kms)\n", VECTOR[j].nombreCiudad,distanciaCarreteras(G, i, j));
+            }
+            //si son autopistas
+            if (distanciaAutopistas(G, i, j)) {
+                printf("\t==>%s(%.2f kms)\n", VECTOR[j].nombreCiudad,distanciaAutopistas(G, i, j));
+            }
+        }
     }
 }
 

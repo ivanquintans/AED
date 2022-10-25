@@ -71,8 +71,10 @@ int insertar_vertice(grafo *G, tipovertice Vert) {
     (*G)->N++;
     (*G)->VERTICES[((*G)->N) - 1] = Vert;
     for (i = 0; i < (*G)->N; i++) {
-        (*G)->A[i][((*G)->N) - 1] = 0;
-        (*G)->A[((*G)->N) - 1][i] = 0;
+        (*G)->A[i][((*G)->N) - 1].Autopista = 0;
+        (*G)->A[i][((*G)->N) - 1].Carreteras = 0;
+        (*G)->A[((*G)->N) - 1][i].Autopista = 0;
+        (*G)->A[((*G)->N) - 1][i].Carreteras = 0;
     }
 	return (*G)->N-1;
 }
@@ -128,10 +130,12 @@ void borrar_arco(grafo *G, int pos1, int pos2) {
 */
 void borrarArcoAutopista(grafo *G, int pos1, int pos2) {
     (*G)->A[pos1][pos2].Autopista = 0;
+    (*G)->A[pos2][pos1].Autopista = 0;
 }
 
 void borrarArcoCarretera(grafo *G, int pos1, int pos2) {
     (*G)->A[pos1][pos2].Carreteras = 0;
+    (*G)->A[pos2][pos1].Carreteras = 0;
 }
 
 
@@ -142,7 +146,11 @@ void borrarArcoCarretera(grafo *G, int pos1, int pos2) {
 */
 
 float distanciaAutopistas(grafo G,int pos1,int pos2){
+    return (G->A[pos1][pos2].Autopista);
+}
 
+float distanciaCarreteras(grafo G,int pos1,int pos2){
+    return (G->A[pos1][pos2].Carreteras);
 }
 //Destruye el grafo
 void borrar_grafo(grafo *G) {

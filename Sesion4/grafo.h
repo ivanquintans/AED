@@ -14,7 +14,7 @@
 //Información que se almacena en cada vértice
 typedef struct {
 
-    char * nombreCiudad;
+    char nombreCiudad [50];
 
 }tipovertice;
 
@@ -45,13 +45,16 @@ int insertar_vertice(grafo *G, tipovertice Vert);
 void borrar_vertice(grafo *G, tipovertice Vert);
 
 //Crea el arco de relación entre VERTICES(pos1) y VERTICES(pos2)
-void crear_arco(grafo *G, int pos1, int pos2);
+void InsertarArcoAutopista(grafo *G, int pos1, int pos2, float distancia);
+void InsertarArcoCarretera(grafo *G, int pos1, int pos2, float distancia);
 
 //Borra el arco de relación entre VERTICES(pos1) y VERTICES(pos2)
-void borrar_arco(grafo *G, int pos1, int pos2);
+void borrarArcoAutopista(grafo *G, int pos1, int pos2);
+void borrarArcoCarretera(grafo *G, int pos1, int pos2);
 
 //Devuelve 1 si VERTICES(pos1) y VERTICES(pos2) son vértices adyacentes
-int son_adyacentes(grafo G, int pos1, int pos2);
+float distanciaAutopistas(grafo G,int pos1,int pos2);
+float distanciaCarreteras(grafo G,int pos1,int pos2);
 
 //Destruye el grafo
 void borrar_grafo(grafo *G);

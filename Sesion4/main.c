@@ -24,7 +24,8 @@ int main(int argc, char** argv) {
         printf("s. Salir\n");
 
         printf("Opcion: ");
-        scanf(" %c", &opcion); 
+        scanf(" %c", &opcion);
+        fgetc(stdin);
 
         switch (opcion) {
             case 'a':case'A':
