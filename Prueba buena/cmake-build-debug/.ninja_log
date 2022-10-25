@@ -1,0 +1,11 @@
+# ninja log v5
+1	50	1665942074664093964	CMakeFiles/Prueba_buena.dir/main.c.o	196c38fe5705b98e
+1	58	1665942074672093964	CMakeFiles/Prueba_buena.dir/cola.c.o	9333652f09e23ac6
+1	65	1665942074680093964	CMakeFiles/Prueba_buena.dir/lista.c.o	7d3227180a22d41d
+0	75	1665942074692093965	CMakeFiles/Prueba_buena.dir/abb.c.o	d68e811b9080ef0
+2	83	1665942074700093965	CMakeFiles/Prueba_buena.dir/vacunodromo.c.o	d96c7d72874a9b02
+83	114	1665942074728093966	Prueba_buena	2bf9932e78dbfbf8
+0	81	1665942868096120557	CMakeFiles/Prueba_buena.dir/vacunodromo.c.o	d96c7d72874a9b02
+82	109	1665942868124120558	Prueba_buena	2bf9932e78dbfbf8
+0	69	1665943038452126266	CMakeFiles/Prueba_buena.dir/vacunodromo.c.o	d96c7d72874a9b02
+69	97	1665943038480126267	Prueba_buena	2bf9932e78dbfbf8

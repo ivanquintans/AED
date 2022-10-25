@@ -1,0 +1,17 @@
+# ninja log v5
+2	65	1663148661639829915	CMakeFiles/EntregaSesion1.dir/pila.c.o	c26943c128197783
+1	118	1663520778204233033	CMakeFiles/EntregaSesion1.dir/main.c.o	a17696a113d32d4e
+1	73	1663148661647829914	CMakeFiles/EntregaSesion1.dir/cola.c.o	61b97f3bef5506b1
+118	156	1663520778244233032	EntregaSesion1	b58f29f15bf4f035
+3	81	1663148661659829914	CMakeFiles/EntregaSesion1.dir/recorridos.c.o	b6cef96a99f664ff
+2	76	1663148661651829914	CMakeFiles/EntregaSesion1.dir/funcionesArboles.c.o	4f1c984628e0e2b7
+1	77	1663148661651829914	CMakeFiles/EntregaSesion1.dir/abin.c.o	2f433296581cd7cc
+5	90	1663627601751605179	CMakeFiles/EntregaSesion1.dir/main.c.o	a17696a113d32d4e
+1	91	1663627601755605179	CMakeFiles/EntregaSesion1.dir/cola.c.o	61b97f3bef5506b1
+16	92	1663627601755605179	CMakeFiles/EntregaSesion1.dir/recorridos.c.o	b6cef96a99f664ff
+0	98	1663627601759605179	CMakeFiles/EntregaSesion1.dir/abin.c.o	2f433296581cd7cc
+15	107	1663627601763605179	CMakeFiles/EntregaSesion1.dir/pila.c.o	c26943c128197783
+4	116	1663627601779605179	CMakeFiles/EntregaSesion1.dir/funcionesArboles.c.o	4f1c984628e0e2b7
+116	171	1663627601835605178	EntregaSesion1	b58f29f15bf4f035
+0	51	1663627705335603883	CMakeFiles/EntregaSesion1.dir/main.c.o	a17696a113d32d4e
+51	86	1663627705371603883	EntregaSesion1	b58f29f15bf4f035

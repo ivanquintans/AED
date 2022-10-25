@@ -1,0 +1,3 @@
+/home/ivan/CLionProjects/Algoritmos e Estructuras de datos/EntregaSesion1/cmake-build-debug/CMakeFiles/EntregaSesion1.dir
+/home/ivan/CLionProjects/Algoritmos e Estructuras de datos/EntregaSesion1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ivan/CLionProjects/Algoritmos e Estructuras de datos/EntregaSesion1/cmake-build-debug/CMakeFiles/rebuild_cache.dir

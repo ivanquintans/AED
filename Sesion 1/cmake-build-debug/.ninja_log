@@ -1,0 +1,8 @@
+# ninja log v5
+2	85	1663054264244048956	CMakeFiles/Sesion_1.dir/pila.c.o	2b50dec2dfa5da5b
+0	88	1663054264248048956	CMakeFiles/Sesion_1.dir/abin.c.o	2cf9ace41d4a8a9
+2	94	1663054264252048956	CMakeFiles/Sesion_1.dir/main.c.o	7079a7f4a0562683
+1	97	1663054264256048957	CMakeFiles/Sesion_1.dir/cola.c.o	77ef9458841100a9
+1	99	1663054264248048956	CMakeFiles/Sesion_1.dir/funcionesArboles.c.o	1284939793e9bdca
+4	100	1663054264260048957	CMakeFiles/Sesion_1.dir/recorridos.c.o	b9d558347ef830b8
+100	135	1663054264292048959	Sesion_1	24669b766c53a874
