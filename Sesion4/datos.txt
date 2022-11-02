@@ -34,10 +34,10 @@ Vigo-Oporto;150.1
 Leon=Valladolid;139.4
 Leon-Valladolid;158.2
 Benavente=Valladolid;114.1
-Benavente-Valladolid;139.112.1
+Benavente-Valladolid;112.1
 Valladolid=Zamora;101.2
 Valladolid-Zamora;104.1
-Zamora=Salamaca;64.7
+Zamora=Salamanca;64.7
 Zamora-Salamanca;65.1
 Salamanca=Oporto;349.2
 Salamanca-Oporto;369.1

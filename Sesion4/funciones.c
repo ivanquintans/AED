@@ -176,7 +176,6 @@ void cargar_archivo(grafo *G) {
         fgets(linea,300,archivo);
         strip_line(linea);
         while (strcmp(linea,"*")!=0){
-            printf("%s\n",linea);
             strcpy(v1.nombreCiudad,linea);
             if (existe_vertice(*G, v1))
                 printf("Ese vertice ya esta en el grafo\n");
@@ -189,19 +188,15 @@ void cargar_archivo(grafo *G) {
         }
          do{
             fscanf(archivo," %[^=-]",v1.nombreCiudad);
-            printf("%s\n",v1.nombreCiudad);
             fscanf(archivo," %c",&diferenciador);
-            printf("%c\n",diferenciador);
             fscanf(archivo,"%[^;]",v2.nombreCiudad);
-            printf("%s\n",v2.nombreCiudad);
 
 
             if(diferenciador=='='){// si es una autopista
+                //no queremos para nada el punto y coma
                 fscanf(archivo," %c",&desprecio);
-                printf("%c\n",desprecio); //no queremos para nada el punto y coma
                 fscanf(archivo," %[^\r\n]",valores);
                 valorautopista = atof(valores);
-                printf("%.2f\n",valorautopista);
 
                 //Comprobacion de que el vertice se introdujo correctamente
                 if (!existe_vertice(*G, v1)) {
@@ -209,7 +204,7 @@ void cargar_archivo(grafo *G) {
                     return;
                 }
                 if (!existe_vertice(*G, v2)) {
-                    printf("El vertice %s no existe en el grafo\n", v1.nombreCiudad);
+                    printf("El vertice %s no existe en el grafo\n", v2.nombreCiudad);
                     return;
                 }
 
@@ -225,11 +220,10 @@ void cargar_archivo(grafo *G) {
             //si es carretera
 
             if(diferenciador=='-'){
+                //no queremos para nada el punto y coma
                 fscanf(archivo," %c",&desprecio);
-                printf("%c\n",desprecio); //no queremos para nada el punto y coma
                 fscanf(archivo," %[^\r\n]",valores);
                 valorcarretera = atof(valores);
-                printf("%.2f\n",valorcarretera);
 
                 //Comprobacion de que el vertice se introdujo correctamente
                 if (!existe_vertice(*G, v1)) {
