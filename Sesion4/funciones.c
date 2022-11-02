@@ -187,8 +187,8 @@ void cargar_archivo(grafo *G) {
             strip_line(linea);
 
         }
-        while (feof(archivo) == 0) {
-            fscanf(archivo,"%[^=-]",v1.nombreCiudad);
+         do{
+            fscanf(archivo," %[^=-]",v1.nombreCiudad);
             printf("%s\n",v1.nombreCiudad);
             fscanf(archivo," %c",&diferenciador);
             printf("%c\n",diferenciador);
@@ -199,7 +199,7 @@ void cargar_archivo(grafo *G) {
             if(diferenciador=='='){// si es una autopista
                 fscanf(archivo," %c",&desprecio);
                 printf("%c\n",desprecio); //no queremos para nada el punto y coma
-                fscanf(archivo,"%[^\r\n]",valores);
+                fscanf(archivo," %[^\r\n]",valores);
                 valorautopista = atof(valores);
                 printf("%.2f\n",valorautopista);
 
@@ -224,12 +224,12 @@ void cargar_archivo(grafo *G) {
 
             //si es carretera
 
-            if(diferenciador=='-'){// si es una autopista
+            if(diferenciador=='-'){
                 fscanf(archivo," %c",&desprecio);
                 printf("%c\n",desprecio); //no queremos para nada el punto y coma
-                fscanf(archivo,"%[^\r\n]",valores);
-                valorautopista = atof(valores);
-                printf("%.2f\n",valorautopista);
+                fscanf(archivo," %[^\r\n]",valores);
+                valorcarretera = atof(valores);
+                printf("%.2f\n",valorcarretera);
 
                 //Comprobacion de que el vertice se introdujo correctamente
                 if (!existe_vertice(*G, v1)) {
@@ -242,18 +242,17 @@ void cargar_archivo(grafo *G) {
                 }
 
                 //si no hay distancia entre autopistas
-                if (!distanciaAutopistas(*G, posicion(*G, v1), posicion(*G, v2))) {
-                    if(valorautopista>0) {
-                        InsertarArcoAutopista(G, posicion(*G, v1), posicion(*G, v2), valorautopista);
+                if (!distanciaCarreteras(*G, posicion(*G, v1), posicion(*G, v2))) {
+                    if(valorcarretera>0) {
+                        InsertarArcoCarretera(G, posicion(*G, v1), posicion(*G, v2), valorcarretera);
                     } else printf("VALOR INTRODUCIDO NO VALIDO, NO SE CREO EL ARCO AUTOPISTA\n");
                 }
 
             }
             //MIENTRAS NO NOS ENCONTREMOS EN EL FINAL DEL ARCHIVO
-        }
+        } while ((feof(archivo) == 0));
 
         fclose(archivo); //cerramos el archivo
-
 
     }
 
