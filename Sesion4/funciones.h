@@ -19,6 +19,10 @@ void eliminar_arco(grafo *G);
 //Opción i del menú, imprimir el grafo
 void imprimir_grafo(grafo G);
 
+void strip_line ( char * linea );
+
+void cargar_archivo(grafo *G);
+
 
 #endif	/* FUNCIONES_H */
 

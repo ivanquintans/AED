@@ -15,6 +15,7 @@ int main(int argc, char** argv) {
 
     //Creo el grafo
     crear_grafo(&G);
+    cargar_archivo(&G);
     do {
         printf("\n\na. Insertar nuevo vertice\n");
         printf("b. Eliminar vertice\n");

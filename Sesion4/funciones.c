@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "grafo.h"
+#include "funciones.h"
 
 //FUNCIONES DEL PROGRAMA DE PRUEBA DE GRAFOS
 
@@ -9,7 +11,7 @@
 void introducir_vertice(grafo *G) {
     tipovertice v1;
     printf("Introduce vertice: ");
-    scanf(" %[^\r\n]", v1.nombreCiudad); //declaramos con m ya que nos guarda memoria para un string
+    scanf(" %[^\r\n]", v1.nombreCiudad);
     if (existe_vertice(*G, v1))
         printf("Ese vertice ya esta en el grafo\n");
     else
@@ -66,7 +68,7 @@ void nuevo_arco(grafo *G) {
             InsertarArcoCarretera(G, posicion(*G, v1), posicion(*G, v2), valorcarretera);
         }else printf("VALOR INTRODUCIDO NO VALIDO, NO SE CREO EL ARCO CARRETERA\n");
     }
-    //si no hay distancia entre carreteras
+    //si no hay distancia entre autopistas
     if (!distanciaAutopistas(*G, posicion(*G, v1), posicion(*G, v2))) {
         if(valorautopista>0) {
             InsertarArcoAutopista(G, posicion(*G, v1), posicion(*G, v2), valorautopista);
@@ -155,4 +157,110 @@ void imprimir_grafo(grafo G) {
         }
     }
 }
+
+void cargar_archivo(grafo *G) {
+
+    FILE *archivo;
+    char linea[300],valores[50];
+    char  diferenciador,desprecio;
+
+    tipovertice v1, v2;
+    float valorcarretera, valorautopista;
+
+
+    if ((archivo = fopen("datos.txt", "r")) == NULL) { //COMPROBACION DE APERTURA
+        printf("Error al abrir el archivo\n");
+
+    } else { //SI ES CORRECTA
+
+        fgets(linea,300,archivo);
+        strip_line(linea);
+        while (strcmp(linea,"*")!=0){
+            printf("%s\n",linea);
+            strcpy(v1.nombreCiudad,linea);
+            if (existe_vertice(*G, v1))
+                printf("Ese vertice ya esta en el grafo\n");
+            else
+                insertar_vertice(G, v1);
+
+            fgets(linea,300,archivo);
+            strip_line(linea);
+
+        }
+        while (feof(archivo) == 0) {
+            fscanf(archivo,"%[^=-]",v1.nombreCiudad);
+            printf("%s\n",v1.nombreCiudad);
+            fscanf(archivo," %c",&diferenciador);
+            printf("%c\n",diferenciador);
+            fscanf(archivo,"%[^;]",v2.nombreCiudad);
+            printf("%s\n",v2.nombreCiudad);
+
+
+            if(diferenciador=='='){// si es una autopista
+                fscanf(archivo," %c",&desprecio);
+                printf("%c\n",desprecio); //no queremos para nada el punto y coma
+                fscanf(archivo,"%[^\r\n]",valores);
+                valorautopista = atof(valores);
+                printf("%.2f\n",valorautopista);
+
+                //Comprobacion de que el vertice se introdujo correctamente
+                if (!existe_vertice(*G, v1)) {
+                    printf("El vertice %s no existe en el grafo\n", v1.nombreCiudad);
+                    return;
+                }
+                if (!existe_vertice(*G, v2)) {
+                    printf("El vertice %s no existe en el grafo\n", v1.nombreCiudad);
+                    return;
+                }
+
+                //si no hay distancia entre autopistas
+                if (!distanciaAutopistas(*G, posicion(*G, v1), posicion(*G, v2))) {
+                    if(valorautopista>0) {
+                        InsertarArcoAutopista(G, posicion(*G, v1), posicion(*G, v2), valorautopista);
+                    } else printf("VALOR INTRODUCIDO NO VALIDO, NO SE CREO EL ARCO AUTOPISTA\n");
+                }
+
+            }
+
+            //si es carretera
+
+            if(diferenciador=='-'){// si es una autopista
+                fscanf(archivo," %c",&desprecio);
+                printf("%c\n",desprecio); //no queremos para nada el punto y coma
+                fscanf(archivo,"%[^\r\n]",valores);
+                valorautopista = atof(valores);
+                printf("%.2f\n",valorautopista);
+
+                //Comprobacion de que el vertice se introdujo correctamente
+                if (!existe_vertice(*G, v1)) {
+                    printf("El vertice %s no existe en el grafo\n", v1.nombreCiudad);
+                    return;
+                }
+                if (!existe_vertice(*G, v2)) {
+                    printf("El vertice %s no existe en el grafo\n", v1.nombreCiudad);
+                    return;
+                }
+
+                //si no hay distancia entre autopistas
+                if (!distanciaAutopistas(*G, posicion(*G, v1), posicion(*G, v2))) {
+                    if(valorautopista>0) {
+                        InsertarArcoAutopista(G, posicion(*G, v1), posicion(*G, v2), valorautopista);
+                    } else printf("VALOR INTRODUCIDO NO VALIDO, NO SE CREO EL ARCO AUTOPISTA\n");
+                }
+
+            }
+            //MIENTRAS NO NOS ENCONTREMOS EN EL FINAL DEL ARCHIVO
+        }
+
+        fclose(archivo); //cerramos el archivo
+
+
+    }
+
+
+}
+void strip_line ( char * linea ) {
+    linea [ strcspn ( linea , "\r\n") ] = 0;
+}
+
 
