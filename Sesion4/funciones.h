@@ -23,6 +23,10 @@ void strip_line ( char * linea );
 
 void cargar_archivo(grafo *G);
 
+void actualizar_archivo(grafo G);
+
+void algoritmo_Floyd_Warshall(grafo *G);
+
 
 #endif	/* FUNCIONES_H */
 

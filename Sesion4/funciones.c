@@ -148,11 +148,11 @@ void imprimir_grafo(grafo G) {
 
             //si son carreteras
             if (distanciaCarreteras(G, i, j)) {
-                printf("\t-->%s(%.2f kms)\n", VECTOR[j].nombreCiudad,distanciaCarreteras(G, i, j));
+                printf("\t-->%s (%.2f kms)\n", VECTOR[j].nombreCiudad,distanciaCarreteras(G, i, j));
             }
             //si son autopistas
             if (distanciaAutopistas(G, i, j)) {
-                printf("\t==>%s(%.2f kms)\n", VECTOR[j].nombreCiudad,distanciaAutopistas(G, i, j));
+                printf("\t==>%s (%.2f kms)\n", VECTOR[j].nombreCiudad,distanciaAutopistas(G, i, j));
             }
         }
     }
@@ -190,11 +190,11 @@ void cargar_archivo(grafo *G) {
             fscanf(archivo," %[^=-]",v1.nombreCiudad);
             fscanf(archivo," %c",&diferenciador);
             fscanf(archivo,"%[^;]",v2.nombreCiudad);
+             //no queremos para nada el punto y coma
+             fscanf(archivo," %c",&desprecio);
 
 
             if(diferenciador=='='){// si es una autopista
-                //no queremos para nada el punto y coma
-                fscanf(archivo," %c",&desprecio);
                 fscanf(archivo," %[^\r\n]",valores);
                 valorautopista = atof(valores);
 
@@ -220,8 +220,6 @@ void cargar_archivo(grafo *G) {
             //si es carretera
 
             if(diferenciador=='-'){
-                //no queremos para nada el punto y coma
-                fscanf(archivo," %c",&desprecio);
                 fscanf(archivo," %[^\r\n]",valores);
                 valorcarretera = atof(valores);
 
@@ -254,6 +252,65 @@ void cargar_archivo(grafo *G) {
 }
 void strip_line ( char * linea ) {
     linea [ strcspn ( linea , "\r\n") ] = 0;
+}
+
+void actualizar_archivo(grafo G){
+
+    FILE *archivo;
+    tipovertice *VECTOR; //Para almacenar el vector de vértices del grafo
+    int N; //número de vértices del grafo
+    //Para recorrerla, simplemente vamos a recorrer la matriz de adyacencia
+    N = num_vertices(G);
+    VECTOR = array_vertices(G);
+    if ((archivo = fopen("datos.txt", "w")) == NULL) { //COMPROBACION DE APERTURA
+        printf("Error al abrir el archivo\n");
+
+    }else{
+        int i, j;
+        for (i = 0; i < N; i++) {
+            //Imprimo los vértices
+            fprintf(archivo,"%s\n",VECTOR[i].nombreCiudad);
+        }
+        //separador de vertices a arcos
+        fprintf(archivo,"*\n");
+        //una vez impresos los vertices debemos imprimir los arcos asi que volvemos a hacer el bucle
+        for (i = 0; i < N; i++) {
+            //Chequeo sus arcos
+            for (j = i; j < N; j++) {
+                //si son carreteras
+                if (distanciaCarreteras(G, i, j)) {
+                    fprintf(archivo,"%s-%s;%.2f\n", VECTOR[i].nombreCiudad,VECTOR[j].nombreCiudad,distanciaCarreteras(G, i, j));
+                }
+                //si son autopistas
+                if (distanciaAutopistas(G, i, j)) {
+                    fprintf(archivo,"%s=%s;%.2f\n", VECTOR[i].nombreCiudad,VECTOR[j].nombreCiudad,distanciaAutopistas(G, i, j));
+                }
+            }
+        }
+
+
+    }
+
+}
+
+/*void _printMatrix(double matrix[][MAXVERTICES], int V){
+    int i,j;
+    for(i=0;i<V;i++){
+        for(j=0;j<V;j++){
+            if (matrix[i][j]==INFINITY)
+                printf("%10s","INF");
+            else
+                printf("%10.2f",matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+ */
+void algoritmo_Floyd_Warshall(grafo *G){
+
+
+
+
 }
 
 
