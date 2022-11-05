@@ -44,6 +44,10 @@ int main(int argc, char** argv) {
             case 'i': case 'I':
                 imprimir_grafo(G);
                 break;
+            case 'm': case 'M':
+                //_printMatrix(, num_vertices(G))
+
+                break;
             case 's': case 'S':
                 opcion='s';
                 break;

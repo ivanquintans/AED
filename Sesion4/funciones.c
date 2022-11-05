@@ -1,8 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "grafo.h"
 #include "funciones.h"
+
+// Estructura privada
+
+struct tipo {
+    int vprecio;
+    char via;
+};
+struct tipo D[MAXVERTICES][MAXVERTICES]; //matriz de adyacencia que tiene un campo para autopistas pero para carreteras
 
 //FUNCIONES DEL PROGRAMA DE PRUEBA DE GRAFOS
 
@@ -292,20 +301,12 @@ void actualizar_archivo(grafo G){
     }
 
 }
-
-/*void _printMatrix(double matrix[][MAXVERTICES], int V){
-    int i,j;
-    for(i=0;i<V;i++){
-        for(j=0;j<V;j++){
-            if (matrix[i][j]==INFINITY)
-                printf("%10s","INF");
-            else
-                printf("%10.2f",matrix[i][j]);
-        }
-        printf("\n");
-    }
+/*void printMatrix(grafo G){
+    _printMatrix(G->A);
 }
- */
+
+
+*/
 void algoritmo_Floyd_Warshall(grafo *G){
 
 

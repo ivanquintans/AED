@@ -167,4 +167,3 @@ int num_vertices(grafo G) {
 tipovertice* array_vertices(grafo G) {
     return G->VERTICES;
 }
-
