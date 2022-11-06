@@ -385,7 +385,6 @@ void inicializar_matrices(grafo G,int tipo){
             }
         }
     }
-    _printMatrix(D, num_vertices(G));
 }
 void algoritmo_Floyd_Warshall(grafo G,int tipo){
 
@@ -406,8 +405,7 @@ void algoritmo_Floyd_Warshall(grafo G,int tipo){
             }
         }
     }
-    printf("\n");
-    _printMatrix(D, num_vertices(G));
+
     //solicitamos el camino que queremos recorrer
     printf("\nIntroduce vertice origen: ");
     scanf(" %[^\r\n]", v1.nombreCiudad);
@@ -422,14 +420,13 @@ void algoritmo_Floyd_Warshall(grafo G,int tipo){
             break;
 
         case 1:
-
-
-
+            //En caso de tiempo
+            printf("\nO tempo total desde %s ata %s es de %.2f horas\n",v1.nombreCiudad,v2.nombreCiudad,D[posicion(G,v1)][posicion(G,v2)]);
             break;
 
         case 2:
-
-
+            //En caso de coste
+            printf("\nO custe economico total desde %s ata %s es de %.2f €\n",v1.nombreCiudad,v2.nombreCiudad,D[posicion(G,v1)][posicion(G,v2)]);
             break;
 
     }
@@ -464,7 +461,29 @@ void imprimir_camino(int origen,int destino,grafo G){
 
     }
 }
-void algoritmoPrim(){
+void algoritmoPrim(grafo G){
+
+    int N = num_vertices(G);
+    int Selected[N];
+
+    //inicializamos el conjunto de vertices
+    for(int i=0;i<N;i++){
+        Selected[i]=0;
+    }
+    int numarcos=0;
+    double distanciaTotal=0;
+
+    //inicializamos el algoritmo para el primer vertice
+    Selected[0]=1;
+
+    while(numarcos<N) {
+        //inicializamos el minimo
+        double minimo = INFINITY;
+        int xv=0,vy=0;
+
+        //Buscamos el arco  x-y con valor mínimo, con Selected(vx)=1, Selected(vy)=0
+    }
+
 
 
 }
