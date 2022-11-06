@@ -10,6 +10,7 @@
 #define PRECIO_A 0.07
 #define PRECIO_C 0.01
 
+//estructura nueva para los algoritmos
 double D[MAXVERTICES][MAXVERTICES];
 struct tipo {
     int vprevio;
@@ -112,7 +113,7 @@ void eliminar_arco(grafo *G) {
         return;
     }
     //Eliminación del arco
-    printf("Que arco desea eliminar: C/A");
+    printf("Que arco desea eliminar: C/A ");
     //fgetc(stdin);
     scanf(" %c", &flag);
 
@@ -124,6 +125,9 @@ void eliminar_arco(grafo *G) {
             //ELiminacion del arco carreteras
             if (distanciaCarreteras(*G, posicion(*G, v1), posicion(*G, v2))) {
                 borrarArcoCarretera(G, posicion(*G, v1), posicion(*G, v2));
+                printf("\nSe ha eliminado el arco con exito");
+            }else{
+                printf("\nNo se ha eliminado el arco con exito");
             }
             break;
 
@@ -132,6 +136,9 @@ void eliminar_arco(grafo *G) {
             //Eliminacion del arco autopista
             if(distanciaAutopistas(*G, posicion(*G, v1), posicion(*G, v2))) {
                 borrarArcoAutopista(G, posicion(*G, v1), posicion(*G, v2));
+                printf("\nSe ha eliminado el arco con exito");
+            }else{
+                printf("\nNo se ha eliminado el arco con exito");
             }
 
             break;
@@ -301,8 +308,7 @@ void actualizar_archivo(grafo G){
                 }
             }
         }
-
-
+    fclose(archivo);
     }
 
 }
@@ -463,15 +469,21 @@ void imprimir_camino(int origen,int destino,grafo G){
 }
 void algoritmoPrim(grafo G){
 
+    tipovertice *VECTOR; //Para almacenar el vector de vértices del grafo
     int N = num_vertices(G);
     int Selected[N];
+    char tipoAUX;
+    double minimoCA;
+    char tipo;
+    VECTOR= array_vertices(G);
+
 
     //inicializamos el conjunto de vertices
     for(int i=0;i<N;i++){
         Selected[i]=0;
     }
     int numarcos=0;
-    double distanciaTotal=0;
+    double TiempoTotal=0;
 
     //inicializamos el algoritmo para el primer vertice
     Selected[0]=1;
@@ -479,14 +491,77 @@ void algoritmoPrim(grafo G){
     while(numarcos<N) {
         //inicializamos el minimo
         double minimo = INFINITY;
-        int xv=0,vy=0;
+        int vx=0,vy=0;
 
         //Buscamos el arco  x-y con valor mínimo, con Selected(vx)=1, Selected(vy)=0
+
+        for(int i=0;i<N;i++){
+            if(Selected[i]==1){
+                for(int j=0;j<N;j++){
+                    double tiempoCarretera=distanciaCarreteras(G,i,j)/VELOCIDAD_C;
+                    double tiempoAutopista=distanciaAutopistas(G,i,j)/VELOCIDAD_A;
+                    //si existe distancia de autopistas o distancia de carreteras
+                    //y si el valor es dsitinto de 1
+                    if(Selected[j]!=1 && ((tiempoCarretera)!=0 || (tiempoAutopista!=0))){
+                        //SI la distAncia de carretera es menor que la de autopistas
+                        //y la distancia no es cero es nuestro minimo auxiliar
+                        if(tiempoCarretera<tiempoAutopista) {
+                            if(tiempoCarretera!=0){
+                                //asignamos como minimo la carreterra
+                                minimoCA= tiempoCarretera;
+                                tipoAUX='C';
+                            }else{
+                                //asignamos como minimo la autopista
+                                minimoCA= tiempoAutopista;
+                                tipoAUX='A';
+                            }
+                        //hacemos lo mismo para autopistas
+                        }else{
+                            if(tiempoAutopista!=0){
+                                //asignamos como minimo la autopista
+                                minimoCA= tiempoAutopista;
+                                tipoAUX='A';
+                            }else{
+                                //asignamos como minimo la carretera
+                                minimoCA= tiempoCarretera;
+                                tipoAUX='C';
+                            }
+                        }
+                        if(minimo>minimoCA) {
+                            tipo=tipoAUX;
+                            minimo=minimoCA;
+                            vx=i;
+                            vy=j;
+                        }
+                    }
+                }
+            }
+        }
+
+        Selected[vy]=1;
+        numarcos++;
+
+        //acabamos la interaccion del bucle y va a la siguiente
+        if (vx == vy) continue;
+        //hacemos un switch para imprimir
+        switch (tipo) {
+            case 'C':
+                printf("%10s -- %-10s : %10.2f horas\n", VECTOR[vx].nombreCiudad,VECTOR[vy].nombreCiudad,minimo);
+                break;
+
+            case 'A':
+                printf("%10s == %-10s : %10.2f horas\n", VECTOR[vx].nombreCiudad,VECTOR[vy].nombreCiudad,minimo);
+                break;
+        }
+        //asignamos el tiempo a la suma total
+        TiempoTotal+=minimo;
     }
-
-
-
+    printf("\nTempo da árbore de expansión de custe mínimo=%.2f horas",TiempoTotal);
 }
+
+
+
+
 
 void _printMatrix(double matrix [MAXVERTICES][MAXVERTICES], int V){
     int i,j;

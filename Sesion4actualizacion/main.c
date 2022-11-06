@@ -64,8 +64,9 @@ int main(int argc, char** argv) {
 
                 break;
             case 'h': case 'H':
-
+                algoritmoPrim(G);
                 break;
+
             case 's': case 'S':
                 opcion='s';
                 break;

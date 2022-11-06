@@ -27,6 +27,8 @@ void actualizar_archivo(grafo G);
 
 void _printMatrix(double matrix [MAXVERTICES][MAXVERTICES], int V);
 
+void algoritmoPrim(grafo G);
+
 void inicializar_matrices(grafo G,int tipo);
 
 void imprimir_camino(int origen,int destino,grafo G);
