@@ -5,12 +5,18 @@
 #include "grafo.h"
 #include "funciones.h"
 
-float D[MAXVERTICES][MAXVERTICES];
+#define VELOCIDAD_A 120
+#define VELOCIDAD_C 70
+#define PRECIO_A 0.07
+#define PRECIO_C 0.01
+
+double D[MAXVERTICES][MAXVERTICES];
 struct tipo {
-    int vprecio;
+    int vprevio;
     char via;
 };
-struct tipo P[MAXVERTICES][MAXVERTICES]; //matriz de adyacencia que tiene un campo para autopistas pero para carreteras
+struct tipo P[MAXVERTICES][MAXVERTICES];
+
 
 //FUNCIONES DEL PROGRAMA DE PRUEBA DE GRAFOS
 
@@ -300,9 +306,34 @@ void actualizar_archivo(grafo G){
     }
 
 }
-void inicializar_matrices(grafo *G){
+void inicializar_matrices(grafo G,int tipo){
 
-    int N = num_vertices(*G);
+    double factorA,factorC;
+
+    switch (tipo) {
+        case 0:
+            //distnacia mas corta
+            factorA=1;
+            factorC=1;
+            break;
+
+        case 1:
+            //menos velocidad
+            //velocidad en autopista es 120km/h y en carretera es 70km/k
+            factorA=1./VELOCIDAD_A;
+            factorC=1./VELOCIDAD_C;
+
+            break;
+
+        case 2:
+            //precio del kilometro recorrido en autopista y en carretera
+            factorA=PRECIO_A;
+            factorC=PRECIO_C;
+
+            break;
+
+    }
+    int N = num_vertices(G);
 
     for(int i=0;i<N;i++){
         for(int j=0;j<N;j++){
@@ -311,39 +342,134 @@ void inicializar_matrices(grafo *G){
                 //SI SON IGUALES PONEMOS 0
                 D[i][j] = 0;
 
+                //INICIALIZAMOS LA MATRIZ P
+                //0 EN CUALQUIER CASO EN EL QUE NO HAYA AUTOPISTA O CARRETERA
+               P[i][j].vprevio=0;
+
             //SI ENCONTRAMOS ALGUNA DISTANCIA TANTO PARA CARRETERA COMO PARA AUTOPISTA
-            }else if(distanciaAutopistas(*G,i,j)!=0 || distanciaCarreteras(*G,i,j)!=0) {
+            }else if(factorA*distanciaAutopistas(G,i,j)!=0 || factorC*distanciaCarreteras(G,i,j)!=0) {
+
+                //INICIALIZAMOS LA MATRIZ P
+                //si existe carretera o autopista añadimos el vertice
+                P[i][j].vprevio=i;
+
                 //SI LA AUTOPISTA ES LA DISTANCIA MAS PEQUEÑA
-                if (distanciaAutopistas(*G, i, j) < distanciaCarreteras(*G, i, j)) {
+                if (factorA*distanciaAutopistas(G, i, j) < factorC*distanciaCarreteras(G, i, j)) {
                     //SI LA DISTANCIA DE LA AUTOPISTA ES CERO METEMOS LA CARRETERA YA QUE LA CARRETERA ES LA MENOR DISTANCIA
-                    if(distanciaAutopistas(*G, i, j)==0) {
-                        D[i][j] = distanciaCarreteras(*G, i, j);
+                    if(factorA*distanciaAutopistas(G, i, j)==0) {
+                        D[i][j] = factorC*distanciaCarreteras(G, i, j);
+                        P[i][j].via='C';
                     //SI ES DISTINTA DE CERO AÑADIMOS LA AUTOPISTA
                     }else{
-                        D[i][j] = distanciaAutopistas(*G,i,j);
+                        D[i][j] = factorA*distanciaAutopistas(G,i,j);
+                        P[i][j].via='A';
                     }
                 //MISMO CASO PERO EN ESTE CASO PARA LAS CARRETERAS
                 } else {
-                    if(distanciaCarreteras(*G, i, j)==0) {
-                        D[i][j] = distanciaAutopistas(*G, i, j);
+                    if(factorC*distanciaCarreteras(G, i, j)==0) {
+                        D[i][j] = factorA*distanciaAutopistas(G, i, j);
+                        P[i][j].via='A';
                     }else{
-                        D[i][j] = distanciaCarreteras(*G,i,j);
+                        D[i][j] = factorC*distanciaCarreteras(G,i,j);
+                        P[i][j].via='C';
                     }
                 }
             //SI NO SE CUMPLE NINGUNA DE LAS ANTERIORES CONDICIONES
             }else{
                 //EN CUALQUIER OTRO CASO EL VALOR ES INFINITO
                 D[i][j]=INFINITY;
-            }
 
+                //INICIALIZAMOS LA MATRIZ P
+                //0 EN CUALQUIER CASO EN EL QUE NO HAYA AUTOPISTA O CARRETERA
+                P[i][j].vprevio=0;
+            }
         }
     }
-    _printMatrix(D, num_vertices(*G));
+    _printMatrix(D, num_vertices(G));
+}
+void algoritmo_Floyd_Warshall(grafo G,int tipo){
 
+    tipovertice v1,v2;
+
+    //INICIALIZAMOS LAS MATRICES
+    inicializar_matrices(G,tipo);
+
+    int N = num_vertices(G);
+
+    for(int k=0;k<N;k++) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if(D[i][j]>D[i][k]+D[k][j]){
+                    D[i][j]=D[i][k]+D[k][j];
+                    P[i][j]=P[k][j];
+                }
+            }
+        }
+    }
+    printf("\n");
+    _printMatrix(D, num_vertices(G));
+    //solicitamos el camino que queremos recorrer
+    printf("\nIntroduce vertice origen: ");
+    scanf(" %[^\r\n]", v1.nombreCiudad);
+
+    printf("Introduce vertice destino: ");
+    scanf(" %[^\r\n]", v2.nombreCiudad);
+
+    switch (tipo) {
+        case 0:
+            //En caso de distancia corta
+            printf("\nA distancia total desde %s ata %s es de %.2f kms\n",v1.nombreCiudad,v2.nombreCiudad,D[posicion(G,v1)][posicion(G,v2)]);
+            break;
+
+        case 1:
+
+
+
+            break;
+
+        case 2:
+
+
+            break;
+
+    }
+
+
+    //a la funcion imprimir camino le pasamos directamente la posicion del tipo vertice que tenemos
+
+    imprimir_camino(posicion(G,v1), posicion(G,v2),G);
 
 
 }
-void _printMatrix(float matrix [MAXVERTICES][MAXVERTICES], int V){
+
+void imprimir_camino(int origen,int destino,grafo G){
+    tipovertice *VECTOR; //Para almacenar el vector de vértices del grafo
+    VECTOR= array_vertices(G);
+
+    if(origen!=destino){
+        //pasamos la funcion recursiva para que siga imprimiendo el camnino
+        imprimir_camino(origen,P[origen][destino].vprevio,G);
+
+        //ahora debemos comprobar si es carretera o autopista para saber si imprimimos ==> o -->
+        //si ese vertice es una carretera
+        if(P[origen][destino].via=='C'){
+            printf("--> %s",VECTOR[destino].nombreCiudad);
+        //si no si es una autopista
+        }else if(P[origen][destino].via=='A'){
+            printf("==> %s",VECTOR[destino].nombreCiudad);
+        }
+    //el origen es el destino
+    }else{
+        printf("\tRuta: %s",VECTOR[destino].nombreCiudad);
+
+    }
+}
+void algoritmoPrim(){
+
+
+}
+
+void _printMatrix(double matrix [MAXVERTICES][MAXVERTICES], int V){
     int i,j;
     for(i=0;i<V;i++){
         for(j=0;j<V;j++){
@@ -357,11 +483,6 @@ void _printMatrix(float matrix [MAXVERTICES][MAXVERTICES], int V){
 }
 
 
-void algoritmo_Floyd_Warshall(grafo *G){
 
-
-
-
-}
 
 

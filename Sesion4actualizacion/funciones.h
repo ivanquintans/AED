@@ -25,11 +25,13 @@ void cargar_archivo(grafo *G);
 
 void actualizar_archivo(grafo G);
 
-void _printMatrix(float matrix [MAXVERTICES][MAXVERTICES], int V);
+void _printMatrix(double matrix [MAXVERTICES][MAXVERTICES], int V);
 
-void inicializar_matrices(grafo *G);
+void inicializar_matrices(grafo G,int tipo);
 
-void algoritmo_Floyd_Warshall(grafo *G);
+void imprimir_camino(int origen,int destino,grafo G);
+
+void algoritmo_Floyd_Warshall(grafo G,int tipo);
 
 #endif	/* FUNCIONES_H */
 

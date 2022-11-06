@@ -22,6 +22,10 @@ int main(int argc, char** argv) {
         printf("c. Crear arco\n");
         printf("d. Eliminar arco\n");
         printf("i. Imprimir grafo\n");
+        printf("e. Imprimir a ruta mais curta\n");
+        printf("f. Imprimir a ruta mais rapida\n");
+        printf("g. Imprimir a ruta mais economica\n");
+        printf("h. Imprimir a mínima infraestrutura de conexións que fai que as cidades estean conectadas\n");
         printf("s. Salir\n");
 
         printf("Opcion: ");
@@ -44,8 +48,22 @@ int main(int argc, char** argv) {
             case 'i': case 'I':
                 imprimir_grafo(G);
                 break;
-            case 'm': case 'M':
-                inicializar_matrices(&G);
+            case 'e': case 'E':
+                //como el primer caso es el cero le pasamos el 0 en el tipo
+                algoritmo_Floyd_Warshall(G,0);
+
+                break;
+            case 'f': case 'F':
+                //como el primer caso es el cero le pasamos el 0 en el tipo
+                algoritmo_Floyd_Warshall(G,1);
+
+                break;
+            case 'g': case 'G':
+                //como el primer caso es el cero le pasamos el 0 en el tipo
+                algoritmo_Floyd_Warshall(G,2);
+
+                break;
+            case 'h': case 'H':
 
                 break;
             case 's': case 'S':
