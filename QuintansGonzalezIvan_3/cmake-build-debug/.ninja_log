@@ -1,0 +1,14 @@
+# ninja log v5
+1	55	1668506221442670291	CMakeFiles/QuintansGonzalezIvan_3.dir/main.c.o	95b9e8e973d8f635
+1	68	1668506221458670291	CMakeFiles/QuintansGonzalezIvan_3.dir/cola.c.o	a69a53537d934194
+1	84	1668506221474670290	CMakeFiles/QuintansGonzalezIvan_3.dir/lista.c.o	b8130ead76ba1323
+0	98	1668506221490670289	CMakeFiles/QuintansGonzalezIvan_3.dir/abb.c.o	a80dafe3ddbc205
+1	99	1668506221490670289	CMakeFiles/QuintansGonzalezIvan_3.dir/vacunodromo.c.o	2f430577d999cbc1
+99	127	1668506221518670288	QuintansGonzalezIvan_3	97ec9f5c7bc7c10c
+0	13	0	clean	444481794918ce0
+2	45	1668506661983863127	CMakeFiles/QuintansGonzalezIvan_3.dir/main.c.o	95b9e8e973d8f635
+1	46	1668506661987863127	CMakeFiles/QuintansGonzalezIvan_3.dir/cola.c.o	a69a53537d934194
+2	58	1668506661999863126	CMakeFiles/QuintansGonzalezIvan_3.dir/lista.c.o	b8130ead76ba1323
+1	75	1668506662015863126	CMakeFiles/QuintansGonzalezIvan_3.dir/abb.c.o	a80dafe3ddbc205
+2	77	1668506662015863126	CMakeFiles/QuintansGonzalezIvan_3.dir/vacunodromo.c.o	2f430577d999cbc1
+77	103	1668506662043863124	QuintansGonzalezIvan_3	97ec9f5c7bc7c10c

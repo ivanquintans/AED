@@ -1,0 +1,1 @@
+CMakeLists.txt not found in /home/ivan/CLionProjects/Algoritmos e Estructuras de datos/QuintansGonzalezIvan_4 Select CMakeLists.txt
